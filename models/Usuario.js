@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var productos = require('../models/productos.js');
+var Producto = require('../models/Producto.js');
 var bcrypt = require('bcryptjs');
 var SALT_WORK_FACTOR = 10;
 
@@ -17,15 +17,16 @@ var usuarioSchema = new Schema({
     email: { type: String, required: true },
     telefono: { type: Number, required: true },
     contrasenia: { type: String, required: true },
-    direccion: { type: String, required: true },
+    direccion: {type: String, required: true },
     role: {
         type: String,
         enum: ['admin', 'user'],
         default: 'user'
     },
     //Referencia Producto favorito
-    productos: [{
-        sku: 'productos',
+    favorito: [{
+        type: Schema.ObjectId,
+        ref: 'Producto',
         default: null
     }]
 });
