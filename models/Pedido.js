@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Producto = require('../models/Producto.js');
 var Usuario = require('../models/Usuario.js');
+var db = mongoose.connection;
+
 
 var pedidoSchema = new Schema({
     id_pedidos:{type:Schema.ObjectId},

@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 var Producto = require('../models/Producto.js');
 var bcrypt = require('bcryptjs');
 var SALT_WORK_FACTOR = 10;
+var db = mongoose.connection;
 
 var usuarioSchema = new Schema({
     dni: {
