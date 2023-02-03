@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var productos = require('./Producto.js');
-var usuarios = require('./Usuario.js');
+var Producto = require('../Producto.js');
+var Usuario = require('../Usuario.js');
 
 var pedidoSchema = new Schema({
     id_pedidos:{type:Schema.ObjectId},
