@@ -7,3 +7,5 @@ tipo: { type: String, required: true },
 precio: { type: Number, required: true },
 imagen: { type: Mixed, required: true },
 });
+
+module.exports = mongoose.model('usuarios', productoEsquema);
