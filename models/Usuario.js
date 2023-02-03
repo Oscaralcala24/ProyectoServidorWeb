@@ -17,7 +17,7 @@ var usuarioSchema = new Schema({
     email: { type: String, required: true },
     telefono: { type: Number, required: true },
     contrasenia: { type: String, required: true },
-    direccion: {type: String, required: true },
+    direccion: { type: String, required: true },
     role: {
         type: String,
         enum: ['admin', 'user'],
