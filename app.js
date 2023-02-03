@@ -7,15 +7,6 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var mongoose = require('mongoose');
-mongoose.set('strictQuery', false);
-
-mongoose.connect(process.env.DB_URI, { useNewUrlParser: true })
-.then(() => console.log('connection successful'))
-.catch((err) => console.error(err));
-
-var db = mongoose.connection;
-
 var app = express();
 
 // view engine setup
