@@ -7,6 +7,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var pedidoRouter = require('./routes/pedido');
+var productoRouter = require('./routes/producto');
+var tiendaRouter = require('./routes/tienda');
+var usuarioRouter = require('./routes/usuario');
 
 var mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
@@ -31,6 +35,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/pedido',pedidoRouter);
+app.use('/producto',productoRouter);
+app.use('/tienda',tiendaRouter);
+app.use('/usuario',usuarioRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
