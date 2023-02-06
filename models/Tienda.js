@@ -1,15 +1,22 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var productos = require('./Producto.js');
-var pedidos = require('./Pedido.js');
+var Producto = require('../models/Producto.js');
+var Pedido = require('../models/Pedido.js');
+var db = mongoose.connection;
 
 var tiendaSchema = new Schema({
     id_tiendas:{type:Schema.ObjectId},
     nombre_tienda:{type: String , required: true},
     ciudad:{type: String , required: true},
-    sku_productos:[{
+    stock:
+    [{
+    producto:{
         type:Schema.ObjectId,
         ref: 'Producto'
+    },
+    cantidad:{
+        type: Number
+    }
     }],
     id_pedido:[{
         type: Schema.ObjectId,
@@ -18,3 +25,5 @@ var tiendaSchema = new Schema({
 })
 
 module.exports = mongoose.model('Tienda', tiendaSchema);
+
+//{producto: id_producto, cantidad:cantidad]
