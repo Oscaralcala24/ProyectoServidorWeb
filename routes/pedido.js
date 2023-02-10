@@ -9,7 +9,7 @@ var db = mongoose.connection;
 
 /*GET - Muestra todos los pedidos de un usuario*/
 router.get('/:idUser', function(req, res, next) {
-  Pedido.find({},[{$lookup:{from:"usuario",localField:"id_usuario",foreignField:"id_",as:"usuarioPedidoID"}}],function (err,pedidoInfo) {
+  Pedido.aggregate({},[{$lookup:{from:"usuario",localField:"id_usuario",foreignField:"id_",as:"usuarioPedidoID"}}],function (err,pedidoInfo) {
     if (err) res.status(500).send(err);
     else res.sendStatus(200).json(pedidoInfo);
   }) 
@@ -25,7 +25,7 @@ router.post('/', function (req, res, next) {
 
 /*GET - Mostrar datos de un pedido*/
 router.get('/:id', function (req, res, next) {
-  Pedido.find(req.params.id, function (err, pedidoinfo) {
+  Pedido.findById(req.params.id, function (err, pedidoinfo) {
     if (err) res.status(500).send(err);
     else res.sendStatus(200).json(pedidoinfo);
   });
