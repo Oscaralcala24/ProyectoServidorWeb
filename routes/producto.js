@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var categoria = require('../models/Categoria')
 var Producto = require('../models/Producto')
+var usuario = require('../models/Usuario');
 var mongoose = require('mongoose');
 var db = mongoose.connection;
 
@@ -53,14 +54,17 @@ router.put('/:id', function (req, res, next) {
   });
 });
 
-
 /* Muestra los productos favoritos del usuario */
-router.get('/categoria/:id_categoria', function (req, res, next) {
-  Producto.findById(req.params.id,function (err, producto) {
+router.get('/favoritos/:id', function (req, res, next) {
+  Producto.find({'usuario': req.params.id },{}).populate('usuario').exec(function (err, producto){
     if (err) res.status(500).send(err);
     else res.status(200).json(producto);
   });
 });
+
+
+
+
 
 
 

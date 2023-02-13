@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var usuario = require('../models/Usuario')
+var producto = require('../models/Producto')
 var mongoose = require('mongoose');
 var db = mongoose.connection;
 
@@ -78,5 +79,24 @@ router.delete('/:id', function (req, res, next) {
     else res.sendStatus(200);
   });
 });
+
+// Añadir producto favorito al usuario
+router.put('/favoritos/:id',function (req, res, next) {
+  usuario.updateOne({"_id":req.params.id},{$addToSet:{"favorito":req.body.id}}).exec(function (err, producto){
+    if (err) res.status(500).send(err);
+    else res.status(200).json(producto);
+  });
+});
+
+
+// Mostrar productos favoritos del usuario
+router.get('/favoritos/:id', function (req, res, next) {
+  usuario.find({ '_id': req.params.id },{"favorito":1}).populate('favorito').exec(function (err, producto){
+    if (err) res.status(500).send(err);
+    else res.status(200).json(producto);
+  });
+});
+
+
 
 module.exports = router;
