@@ -7,54 +7,54 @@ var db = mongoose.connection;
 
 // GET - Listado de usuarios ordenados por fecha de creación
 router.get('/', function (req, res, next) {
-  User.find().sort('-creationdate').exec(function (err, users) {
-    if (err) res.status(500).send(err);
-    else res.status(200).json(users);
+  usuario.find().sort('-creationdate').exec(function (error, usuarioInfo) {
+    if (error) res.status(500).send(error);
+    else res.status(200).json(usuarioInfo);
   });
 });
 
 // GET - Listar un único usuario por su Id
 router.get('/:id', function (req, res, next) {
-  User.findById(req.params.id, function (err, userinfo) {
-    if (err) res.status(500).send(err);
-    else res.status(200).json(userinfo);
+  usuario.findById(req.params.id, function (error, usuarioInfo) {
+    if (error) res.status(500).send(error);
+    else res.status(200).json(usuarioInfo);
   });
 });
 
 // GET - Listar un único usuario por su nombre
-router.get('/finduser', function (req, res, next) {
-  User.findOne({ nombre: req.body.nombre }, function (err, user) {
-    if (err) res.status(500).send(err);
-    else res.status(200).json(user);
+router.get('/findusuario', function (req, res, next) {
+  usuario.findOne({ nombre: req.body.nombre }, function (error, usuarioInfo) {
+    if (error) res.status(500).send(error);
+    else res.status(200).json(usuarioInfo);
   });
 });
 
 // POST - Crear un nuevo usuario
 router.post('/', function (req, res, next) {
-  User.create(req.body, function (err, userinfo) {
-    if (err) res.status(500).send(err);
+  usuario.create(req.body, function (error, usuarioInfo) {
+    if (error) res.status(500).send(error);
     else res.sendStatus(200);
   });
 });
 
 // POST - Comprueba si el usuario existe
 router.post('/signin', function (req, res, next) {
-  User.findOne({ nombre: req.body.nombre }, function (err, user) {
-    if (err) res.status(500).send('Error del servidor en el usuario');
+  usuario.findOne({ nombre: req.body.nombre }, function (error, usuarioInfo) {
+    if (error) res.status(500).send('Error del servidor en el usuario');
     // Usuario
-    if (user != null) {
-      user.comparePassword(req.body.contrasenia, function (err,
+    if (usuarioInfo != null) {
+      usuarioInfo.comparePassword(req.body.contrasenia, function (error,
         isMatch) {
-        if (err) return next(err);
+        if (error) return next(error);
         // Contrasenia
         if (isMatch)
           res.status(200).send({
             message: 'ok', role:
-              user.role, id: user._id
+            usuarioInfo.role, id: usuarioInfo._id
           });
         else
           res.status(200).send({
-            message: 'la contrasenia no coincide'
+            message: 'la contraseña no coincide'
           });
       });
     } else res.status(401).send({
@@ -65,16 +65,16 @@ router.post('/signin', function (req, res, next) {
 
 // PUT - Actualizar un usuario existente identificado por su Id
 router.put('/:id', function (req, res, next) {
-  User.findByIdAndUpdate(req.params.id, req.body, function (err) {
-    if (err) res.status(500).send(err);
+  usuario.findByIdAndUpdate(req.params.id, req.body, function (error) {
+    if (error) res.status(500).send(error);
     else res.sendStatus(200);
   });
 });
 
 // DELETE - Eliminar un usuario existente identificado por su Id
 router.delete('/:id', function (req, res, next) {
-  User.findByIdAndDelete(req.params.id, function (err, userinfo) {
-    if (err) res.status(500).send(err);
+  usuario.findByIdAndDelete(req.params.id, function (error, usuarioInfo) {
+    if (error) res.status(500).send(error);
     else res.sendStatus(200);
   });
 });
