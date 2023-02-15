@@ -8,10 +8,20 @@ var db = mongoose.connection;
 
 // GET - Listado de usuarios ordenados por fecha de creación
 router.get('/', function (req, res, next) {
-  usuario.find().sort('-creationdate').exec(function (error, usuarioInfo) {
-    if (error) res.status(500).send(error);
-    else res.status(200).json(usuarioInfo);
-  });
+  let queryUsuario = req.query.role;
+  console.log(queryUsuario);
+  if (queryUsuario != null) {
+    usuario.find({ role: queryUsuario }).exec(function (error, usuarioInfo) {
+      if (error) res.status(500).send(error);
+      else res.status(200).json(usuarioInfo);
+    });
+  } else {
+    usuario.find().exec(function (error, usuarioInfo) {
+      if (error) res.status(500).send(error);
+      else res.status(200).json(usuarioInfo);
+    });
+  }
+
 });
 
 // GET - Listar un único usuario por su Id
@@ -51,7 +61,7 @@ router.post('/signin', function (req, res, next) {
         if (isMatch)
           res.status(200).send({
             message: 'ok', role:
-            usuarioInfo.role, id: usuarioInfo._id
+              usuarioInfo.role, id: usuarioInfo._id
           });
         else
           res.status(200).send({
@@ -81,8 +91,8 @@ router.delete('/:id', function (req, res, next) {
 });
 
 // Añadir producto favorito al usuario
-router.put('/favoritos/:id',function (req, res, next) {
-  usuario.updateOne({"_id":req.params.id},{$addToSet:{"favorito":req.body.id}}).exec(function (err, producto){
+router.put('/favoritos/:id', function (req, res, next) {
+  usuario.updateOne({ "_id": req.params.id }, { $addToSet: { "favorito": req.body.id } }).exec(function (err, producto) {
     if (err) res.status(500).send(err);
     else res.status(200).json(producto);
   });
@@ -91,7 +101,7 @@ router.put('/favoritos/:id',function (req, res, next) {
 
 // Mostrar productos favoritos del usuario
 router.get('/favoritos/:id', function (req, res, next) {
-  usuario.find({ '_id': req.params.id },{"favorito":1}).populate('favorito').exec(function (err, producto){
+  usuario.find({ '_id': req.params.id }, { "favorito": 1 }).populate('favorito').exec(function (err, producto) {
     if (err) res.status(500).send(err);
     else res.status(200).json(producto);
   });
