@@ -22,6 +22,22 @@ router.post('/', function (req, res, next) {
   });
 });
 
+/*GET - Muestra los estados de los pedidos, pasando por url el estado que quiere visualizar*/
+router.get('/',function (req,res,next) {
+  let queryPedido = req.query.estado;
+  if(queryPedido !== null){
+    Pedido.find({ estado: queryPedido }).exec(function (error, estadoInfo) {
+      if (error) res.status(500).send(error);
+      else res.status(200).json(estadoInfo);
+    });
+  }else{
+    Pedido.find().exec(function (error, estadoInfo) {
+      if (error) res.status(500).send(error);
+      else res.status(200).json(estadoInfo);
+    });
+  }
+})
+
 /*GET - Mostrar datos de un pedido*/
 router.get('/:id', function (req, res, next) {
   Pedido.findById(req.params.id, function (err, pedidoinfo) {

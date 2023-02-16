@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var categoria = require('../models/Categoria')
+var varianteProducto = require('../models/VarianteProducto')
 var Producto = require('../models/Producto')
 var usuario = require('../models/Usuario');
 var mongoose = require('mongoose');
@@ -27,7 +27,6 @@ router.get('/:id', function (req, res, next) {
     else res.status(200).json(producto);
   });
 });
-
 
 /* Mostrar todos los productos de una categoría */
 router.get('/categoria/:id_categoria', function (req, res, next) {

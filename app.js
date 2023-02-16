@@ -9,7 +9,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var pedidoRouter = require('./routes/pedido');
 var productoRouter = require('./routes/producto');
-var categoriaRouter = require('./routes/categoria');
+var varianteProducto = require('./routes/varianteProducto');
 var usuarioRouter = require('./routes/usuario');
 
 var mongoose = require('mongoose');
@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/pedido',pedidoRouter);
 app.use('/producto',productoRouter);
-app.use('/categoria',categoriaRouter);
+app.use('/VarianteProducto',varianteProducto);
 app.use('/usuario',usuarioRouter);
 
 // catch 404 and forward to error handler
