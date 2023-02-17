@@ -16,24 +16,49 @@ router.post('/', function(req, res, next) {
 /* Mostrar todos los productos o todos los productos de una categoria*/
 router.get('/', function (req, res, next) {
   let queryCategoria = req.query.categoria;
-  let queryPrecio = req.query.precio;
-  if(queryCategoria !== null){
+  if(queryCategoria !== undefined){
     Producto.find({ categoria: queryCategoria }).exec(function (error, categoriaInfo) {
       if (error) res.status(500).send(error);
       else res.status(200).json(categoriaInfo);
     });
-  }else if(queryPrecio !== null){
-    Producto.find({ precio: queryPrecio }).exec(function (error, precioInfo) {
-      if (error) res.status(500).send(error);
-      else res.status(200).json(precioInfo);
-    });
-  }
-  else{
+  }else{
     Producto.find().exec(function (error, categoriaInfo) {
       if (error) res.status(500).send(error);
       else res.status(200).json(categoriaInfo);
     });
   }
+});
+
+/*Mostrar los productos mayor que un precio determinado*/
+router.get('/precioMayor',function (req, res) {
+let queryPrecio = req.query.precio;
+  if(queryPrecio !== undefined){
+    Producto.find().where('precio').gte(queryPrecio).exec(function (error, precioInfo) { //Query donde cuando encuentre precio que nos muestre los productos de un precio mayor al que hemos pasado por la url
+      if (error) res.status(500).send(error);
+      else res.status(200).json(precioInfo);
+    });
+  }else{
+    Producto.find().exec(function (error, categoriaInfo) {
+      if (error) res.status(500).send(error);
+      else res.status(200).json(categoriaInfo);
+  });
+}
+});
+
+/*Mostrar los productos menor que un precio determinado*/
+router.get('/precioMenor',function (req, res) {
+let queryPrecio = req.query.precio;
+  if(queryPrecio !== undefined){
+    Producto.find().where('precio').lte(queryPrecio).exec(function (error, precioInfo) { //Query donde cuando encuentre precio que nos muestre los productos de un precio menor al que hemos pasado por la url
+      if (error) res.status(500).send(error);
+      else res.status(200).json(precioInfo);
+    });
+  }else{
+    Producto.find().exec(function (error, categoriaInfo) {
+      if (error) res.status(500).send(error);
+      else res.status(200).json(categoriaInfo);
+  });
+}
 });
 
 /* Mostrar un producto con una id */
@@ -43,7 +68,6 @@ router.get('/:id', function (req, res, next) {
     else res.status(200).json(producto);
   });
 });
-
 
 /* Borrar un producto */
 router.delete('/:id', function (req, res, next) {
@@ -63,12 +87,5 @@ router.get('/favoritos/:id', function (req, res, next) {
 });
 
 /*Muestra todos los productos filtrado por precio*/
-router.get('/')
-
-
-
-
-
-
 
 module.exports = router;
