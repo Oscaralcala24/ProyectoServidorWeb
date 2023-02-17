@@ -13,27 +13,35 @@ router.post('/', function(req, res, next) {
     else res.sendStatus(200);
   });
 });
-/* Mostrar todos los productos */
+/* Mostrar todos los productos o todos los productos de una categoria*/
 router.get('/', function (req, res, next) {
-  Producto.find(function (err, producto) {
-    if (err) res.status(500).send(err);
-    else res.status(200).json(producto);
-  });
+  let queryCategoria = req.query.categoria;
+  let queryPrecio = req.query.precio;
+  if(queryCategoria !== null){
+    Producto.find({ categoria: queryCategoria }).exec(function (error, categoriaInfo) {
+      if (error) res.status(500).send(error);
+      else res.status(200).json(categoriaInfo);
+    });
+  }else if(queryPrecio !== null){
+    Producto.find({ precio: queryPrecio }).exec(function (error, precioInfo) {
+      if (error) res.status(500).send(error);
+      else res.status(200).json(precioInfo);
+    });
+  }
+  else{
+    Producto.find().exec(function (error, categoriaInfo) {
+      if (error) res.status(500).send(error);
+      else res.status(200).json(categoriaInfo);
+    });
+  }
 });
+
 /* Mostrar un producto con una id */
 router.get('/:id', function (req, res, next) {
   Producto.findById(req.params.id,function (err, producto) {
     if (err) res.status(500).send(err);
     else res.status(200).json(producto);
   });
-});
-
-/* Mostrar todos los productos de una categoría */
-router.get('/categoria/:id_categoria', function (req, res, next) {
-  Pedido.aggregate({},[{$lookup:{from:"categorias",localField:"id_categoria",foreignField:"id_categoria",as:"categoria_id"}}],function (err,producto) {
-    if (err) res.status(500).send(err);
-    else res.sendStatus(200).json(producto);
-  })
 });
 
 
@@ -45,13 +53,6 @@ router.delete('/:id', function (req, res, next) {
   });
 });
 
-/* Modificar stock producto */
-router.put('/:id', function (req, res, next) {
-  Producto.findByIdAndUpdate(req.params.id, req.body, function (err) {
-    if (err) res.status(500).send(err);
-    else res.sendStatus(200);
-  });
-});
 
 /* Muestra los productos favoritos del usuario */
 router.get('/favoritos/:id', function (req, res, next) {
@@ -60,6 +61,9 @@ router.get('/favoritos/:id', function (req, res, next) {
     else res.status(200).json(producto);
   });
 });
+
+/*Muestra todos los productos filtrado por precio*/
+router.get('/')
 
 
 
