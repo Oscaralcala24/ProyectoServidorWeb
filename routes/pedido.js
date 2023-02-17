@@ -40,7 +40,7 @@ router.get('/ordenarFechaASC',function (req, res) {
 });
 
 /*GET - Muestra los pedidos ordenados por una fecha determinada [DESC]*/
-router.get('/ordenarFechaASC',function (req, res) {
+router.get('/ordenarFechaDESC',function (req, res) {
   let fecha = req.body.fecha;
   
   if (fecha !== undefined && fecha !== null){
