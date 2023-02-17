@@ -16,7 +16,7 @@ router.post('/', function(req, res, next) {
 /* Mostrar todos los productos o todos los productos de una categoria*/
 router.get('/', function (req, res, next) {
   let queryCategoria = req.query.categoria;
-  if(queryCategoria !== undefined){
+  if(queryCategoria !== undefined && queryCategoria !== null){
     Producto.find({ categoria: queryCategoria }).exec(function (error, categoriaInfo) {
       if (error) res.status(500).send(error);
       else res.status(200).json(categoriaInfo);
@@ -32,7 +32,7 @@ router.get('/', function (req, res, next) {
 /*Mostrar los productos mayor que un precio determinado*/
 router.get('/precioMayor',function (req, res) {
 let queryPrecio = req.query.precio;
-  if(queryPrecio !== undefined){
+  if(queryPrecio !== undefined && queryPrecio !== null){
     Producto.find().where('precio').gte(queryPrecio).exec(function (error, precioInfo) { //Query donde cuando encuentre precio que nos muestre los productos de un precio mayor al que hemos pasado por la url
       if (error) res.status(500).send(error);
       else res.status(200).json(precioInfo);
@@ -48,7 +48,7 @@ let queryPrecio = req.query.precio;
 /*Mostrar los productos menor que un precio determinado*/
 router.get('/precioMenor',function (req, res) {
 let queryPrecio = req.query.precio;
-  if(queryPrecio !== undefined){
+  if(queryPrecio !== undefined && queryPrecio !== null){
     Producto.find().where('precio').lte(queryPrecio).exec(function (error, precioInfo) { //Query donde cuando encuentre precio que nos muestre los productos de un precio menor al que hemos pasado por la url
       if (error) res.status(500).send(error);
       else res.status(200).json(precioInfo);
