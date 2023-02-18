@@ -1,15 +1,24 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var producto = require('./../models/Producto');
 const VarianteProducto = require('../models/VarianteProducto');
 var db = mongoose.connection;
 
-// GET - Listado de VarianteProducto ordenadas por fecha de creación
+// GET - Listado de VarianteProducto de un producto
 router.get('/', function (req, res, next) {
-  VarianteProducto.find().sort('-creationdate').exec(function (err, infoVarianteProducto) {
-    if (err) res.status(500).send(err);
-    else res.status(200).json(infoVarianteProducto);
+  let queryProducto = req.query.producto;
+  if(queryProducto !== undefined && queryProducto !== null){
+    VarianteProducto.find({ producto : queryProducto }).exec(function (error, varianteInfo) { 
+      if (error) res.status(500).send(error);
+      else res.status(200).json(varianteInfo);
+    });
+  }else{
+    VarianteProducto.find().exec(function (error, varianteInfo) {
+      if (error) res.status(500).send(error);
+      else res.status(200).json(varianteInfo);
   });
+}
 });
 
 // GET - Listar una única VarianteProducto por su Id
