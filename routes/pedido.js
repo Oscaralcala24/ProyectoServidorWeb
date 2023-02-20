@@ -8,7 +8,7 @@ var db = mongoose.connection;
 
 /*GET - Muestra todos los pedidos de un usuario*/
 router.get('/usuario/:id', function(req, res, next) {
-  Pedido.find({ 'usuario': req.params.id }).exec(function(err, posts) {
+  Pedido.find({ 'usuario': req.params.id },{"estado":1}).populate('usuario').exec(function(err, posts) {
       if (err) res.status(500).send(err);
       else res.status(200).json(posts);
   });
@@ -87,6 +87,14 @@ router.delete('/:id', function (req, res, next) {
     if (err) res.status(500).send(err);
     else res.sendStatus(200);
   });
+});
+
+/*PUT - Actualizar estado de un producto*/
+router.put('/upgradePedido/:id',function (req, res, next) {
+  Pedido.findByIdAndUpdate(req.params.id, req.body, function (err) {
+    if (err) res.status(500).send(err);
+    else res.sendStatus(200);
+  })
 });
 
 module.exports = router;
