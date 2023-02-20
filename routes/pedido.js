@@ -24,7 +24,7 @@ router.post('/', function (req, res, next) {
 
 /*GET - Muestra los pedidos ordenados por una fecha determinada [ASC]*/
 router.get('/ordenarFechaASC',function (req, res) {
-  let fecha = req.body.fecha;
+  let fecha = req.query.fecha;
   
   if (fecha !== undefined && fecha !== null){
     Pedido.find().where('fecha').gte(fecha).exec(function (err, estadoPedido) {
@@ -41,7 +41,7 @@ router.get('/ordenarFechaASC',function (req, res) {
 
 /*GET - Muestra los pedidos ordenados por una fecha determinada [DESC]*/
 router.get('/ordenarFechaDESC',function (req, res) {
-  let fecha = req.body.fecha;
+  let fecha = req.query.fecha;  //EJ ARC -> http://localhost:5000/pedido/ordenarFechaDESC ?fecha=2023-02-1
   
   if (fecha !== undefined && fecha !== null){
     Pedido.find().where('fecha').lte(fecha).exec(function (err, estadoPedido) {
@@ -58,7 +58,7 @@ router.get('/ordenarFechaDESC',function (req, res) {
 
 /*GET - Muestra los estados de los pedidos, pasando por url el estado que quiere visualizar*/
 router.get('/',function (req,res,next) {
-  let queryPedido = req.query.estado; //Creamos la query, con el estado que hemos pasado por parametro
+  let queryPedido = req.query.estado; //Creamos la query, con el estado que hemos pasado por parametro | EJ ARC -> http://localhost:5000/pedido/ordenarFechaASC?fecha=2023-02-16
   if(queryPedido !== undefined){ //Si la query no está vacia nos entrará dentro del if
     Pedido.find({ estado: queryPedido }).exec(function (error, estadoInfo) { //Buscara los estados, que le hemos pasado por la query y si el estado es 200 nos creara un json con la respuesta.
       if (error) res.status(500).send(error);
