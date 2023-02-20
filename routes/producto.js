@@ -86,6 +86,14 @@ router.get('/favoritos/:id', function (req, res, next) {
   });
 });
 
-/*Muestra todos los productos filtrado por precio*/
+/* Modifica los datos de un producto */
+router.put('/:id', function (req, res, next) {
+  Producto.findByIdAndUpdate(req.params.id, req.body, function (err) {
+    if (err) res.status(500).send(err);
+    else res.sendStatus(200);
+  });
+});
+
+
 
 module.exports = router;
