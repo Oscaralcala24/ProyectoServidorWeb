@@ -92,8 +92,6 @@ router.delete('/:id', function (req, res, next) {
 
 // Añadir producto favorito al usuario
 router.put('/favoritos/:id', function (req, res, next) {
-  console.log(req.params.id )
-  console.log(req.body.id )
   usuario.findByIdAndUpdate({ "_id": req.params.id }, { $addToSet: { "favorito": req.body.id } }).exec(function (err, producto) {
     if (err) res.status(500).send(err);
     else res.status(200).json(producto);
