@@ -36,7 +36,7 @@ var usuarioSchema = new Schema({
 usuarioSchema.pre('save', function (next) {
     var user = this;
     // solo aplica una función hash al password si ha sido modificado (o es nuevo)
-    if (!user.isModified('password ')) return next();
+    if (!user.isModified('contrasenia')) return next();
     // genera la salt
     bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
         if (err) return next(err);

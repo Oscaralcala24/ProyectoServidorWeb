@@ -32,8 +32,8 @@ router.get('/:id', function (req, res, next) {
   });
 });
 
-// GET - Listar un único usuario por su nombre
-router.get('/findusuario', function (req, res, next) {
+// POST - Listar un único usuario por su nombre
+router.post('/findusuario', function (req, res, next) {
   usuario.findOne({ nombre: req.body.nombre }, function (error, usuarioInfo) {
     if (error) res.status(500).send(error);
     else res.status(200).json(usuarioInfo);
