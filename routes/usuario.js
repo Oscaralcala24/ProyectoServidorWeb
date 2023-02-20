@@ -23,7 +23,14 @@ router.get('/', function (req, res, next) {
   }
 
 });
-
+/*
+router.get('/:id', function(req, res, next) {
+  usuario.find({ '_id': req.params.id },{"nombre":1}, function(err, usuarioInfo) {
+      if (err) res.status(500).send(err);
+      else res.status(200).json(usuarioInfo);
+  });
+});
+*/
 // GET - Listar un único usuario por su Id
 router.get('/:id', function (req, res, next) {
   usuario.findById(req.params.id, function (error, usuarioInfo) {
