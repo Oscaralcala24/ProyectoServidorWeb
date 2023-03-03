@@ -29,6 +29,7 @@ router.get('/', function (req, res, next) {
   }
 });
 
+
 /*Mostrar los productos mayor que un precio determinado*/
 router.get('/precioMayor',function (req, res) {
 let queryPrecio = req.query.precio;
