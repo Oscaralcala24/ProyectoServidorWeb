@@ -5,6 +5,7 @@ var path = require('path');
 require('dotenv').config()
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const { body,validationResult } = require('express-validator');
 
 var indexRouter = require('./routes/index');
 var pedidoRouter = require('./routes/pedido');
@@ -38,6 +39,33 @@ app.use('/pedido',pedidoRouter);
 app.use('/producto',productoRouter);
 app.use('/VarianteProducto',varianteProducto);
 app.use('/usuario',usuarioRouter);
+
+/*Express-Validator-Pedido*/
+app.get('/express-validatorPedido', function (req, res) {
+  res.render('crearPedido')
+})
+
+app.post('/registrarPedido',[
+  body('estado','Ingrese un estado Correcto').isEmpty().exists(),
+  body('fecha','Ingrese una fecha Correcta').isDate(),
+  body('cantidad','Ingresa una cantidad por favor').exists().isNumeric(),
+  body('Producto','Ingresa el id de un producto por favor').exists(),
+  body('usuario','Ingresa el id de un usuario por favor').exists()
+],(req, res) => {
+  const errors = validationResult(req);
+  // if(!errors.isEmpty()){ //NOS GUARDA EN UN ARRAY TODOS LOS ERRORES. NOS LO GUARDA EN EL ARRAY ERRORS
+  //   return res.status(400).json({errors: errors.array()});
+  // }
+
+  if(!errors.isEmpty()){
+    console.log(req.body)
+    const valores = req.body
+    const validaciones = errors.array()
+    res.render('crearPedido.ejs',{validaciones:validaciones,valores:valores})
+  }else{
+    res.send('!Validacion Correcta¡')
+  }
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
