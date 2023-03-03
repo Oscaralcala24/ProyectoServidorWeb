@@ -8,7 +8,7 @@ var db = mongoose.connection;
 
 /*GET - Muestra todos los pedidos de un usuario*/
 router.get('/usuario/:id', function(req, res, next) {
-  Pedido.find({ 'usuario': req.params.id },{"estado":1}).populate('usuario').exec(function(err, posts) {
+  Pedido.find({ 'usuario': req.params.id },{"estado":1}).populate('usuario',{'dni':1,"_id":0}).exec(function(err, posts) {
       if (err) res.status(500).send(err);
       else res.status(200).json(posts);
   });
