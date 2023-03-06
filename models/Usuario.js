@@ -24,7 +24,7 @@ var usuarioSchema = new Schema({
         enum: ['admin', 'user'],
         default: 'user'
     },
-    //Referencia Producto favorito
+    // Referencia Producto favorito
     favorito: [{
         type: Schema.ObjectId,
         ref: 'Producto',
@@ -32,7 +32,7 @@ var usuarioSchema = new Schema({
     }]
 });
 
-//Password
+// Contraseña
 usuarioSchema.pre('save', function (next) {
     var user = this;
     // solo aplica una función hash al password si ha sido modificado (o es nuevo)
@@ -41,17 +41,18 @@ usuarioSchema.pre('save', function (next) {
     bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
         if (err) return next(err);
         // aplica una función hash al password usando la nueva salt
-        bcrypt.hash(user.password, salt, function (err, hash) {
+        bcrypt.hash(user.contrasenia, salt, function (err, hash) {
             if (err) return next(err);
             // sobrescribe el password escrito con el “hasheado”
-            user.password = hash;
+            user.contrasenia = hash;
             next();
         });
     });
 });
+
 usuarioSchema.methods.comparePassword = function (candidatePassword, cb) {
     bcrypt.compare(candidatePassword,
-        this.password,
+        this.contrasenia,
         function (err,
             isMatch) {
             if (err) return cb(err);

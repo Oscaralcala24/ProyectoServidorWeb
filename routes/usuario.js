@@ -5,7 +5,6 @@ var producto = require('../models/Producto')
 var mongoose = require('mongoose');
 var db = mongoose.connection;
 
-
 // GET - Listado de usuarios ordenados por fecha de creación
 router.get('/', function (req, res, next) {
   let queryUsuario = req.query.role;
@@ -21,8 +20,17 @@ router.get('/', function (req, res, next) {
       else res.status(200).json(usuarioInfo);
     });
   }
-
 });
+
+/*
+// GET - Listar un único usuario por su Id y mostrar solo el nombre
+router.get('/:id', function(req, res, next) {
+  usuario.find({ '_id': req.params.id },{"nombre":1}, function(err, usuarioInfo) {
+      if (err) res.status(500).send(err);
+      else res.status(200).json(usuarioInfo);
+  });
+});
+*/
 
 // GET - Listar un único usuario por su Id
 router.get('/:id', function (req, res, next) {
@@ -98,7 +106,6 @@ router.put('/favoritos/:id', function (req, res, next) {
   });
 });
 
-
 // Mostrar productos favoritos del usuario
 router.get('/favoritos/:id', function (req, res, next) {
   usuario.find({ '_id': req.params.id }, { "favorito": 1 }).populate('favorito').exec(function (err, producto) {
@@ -106,7 +113,5 @@ router.get('/favoritos/:id', function (req, res, next) {
     else res.status(200).json(producto);
   });
 });
-
-
 
 module.exports = router;
