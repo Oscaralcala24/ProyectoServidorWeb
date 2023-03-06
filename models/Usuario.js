@@ -24,7 +24,7 @@ var usuarioSchema = new Schema({
         enum: ['admin', 'user'],
         default: 'user'
     },
-    //Referencia Producto favorito
+    // Referencia Producto favorito
     favorito: [{
         type: Schema.ObjectId,
         ref: 'Producto',
@@ -32,7 +32,7 @@ var usuarioSchema = new Schema({
     }]
 });
 
-//Password
+// Contraseña
 usuarioSchema.pre('save', function (next) {
     var user = this;
     // solo aplica una función hash al password si ha sido modificado (o es nuevo)
@@ -49,6 +49,7 @@ usuarioSchema.pre('save', function (next) {
         });
     });
 });
+
 usuarioSchema.methods.comparePassword = function (candidatePassword, cb) {
     bcrypt.compare(candidatePassword,
         this.contrasenia,
