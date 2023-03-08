@@ -5,6 +5,12 @@ var Producto = require('../models/Producto')
 var usuario = require('../models/Usuario');
 var mongoose = require('mongoose');
 var db = mongoose.connection;
+const { body, validationResult } = require('express-validator');
+
+router.get('/crearProducto', function (req, res, next) {
+  res.render('crearProducto');
+});
+
 
 /* Inserta un producto */
 router.post('/', function(req, res, next) {
@@ -94,6 +100,41 @@ router.put('/:id', function (req, res, next) {
     else res.sendStatus(200);
   });
 });
+
+
+router.post('/registrarProducto', [
+  body('nombre', 'Introduzca su Nombre')
+    .exists() // Que no esté vacio
+    .isLength({ min: 3 }), // Longitud caracteres
+  body('categoria', 'Introduzca su categoria')
+    .exists()
+    .matches({
+      options: ["Camiseta","Sudadera","Calcetines","Taza"],
+      errorMessage: "Categoria invalida"
+    }),
+  body('precio', 'Introduzca su precio')
+    .exists(),
+  body('imagen', 'Introduzca su imagen')
+    .exists()
+    .isLength({ min : 10})
+],
+
+
+  function (req, res) {
+    const errorValidacion = validationResult(req);
+    if (!errorValidacion.isEmpty()) {
+      //return res.status(400).json({ errorValidacion: errorValidacion.array() });
+      const validaciones = errorValidacion.array();
+      const valores = req.body;
+      //console.log(validaciones);
+      res.render('crearProducto', {validaciones:validaciones, valores:valores});
+    } else {
+      usuario.create(req.body, function (error, productoInfo) {
+        if (error) res.status(500).send(error);
+        else res.sendStatus(200);
+      });
+    }
+  });
 
 
 
