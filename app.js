@@ -44,6 +44,10 @@ app.use('/usuario', usuarioRouter);
 app.get('/express-validatorPedido', function (req, res) {
   res.render('crearPedido')
 })
+/*Express-Validator-Producto*/
+app.get('/express-validatorProducto', function (req, res) {
+  res.render('crearProducto')
+})
 
 app.post('/registrarPedido', [
   body('estado', 'Ingrese un estado Correcto').isEmpty().exists(),

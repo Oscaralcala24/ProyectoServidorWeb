@@ -13,15 +13,15 @@
     <h1>ExpressValidator - Producto</h1>
     <br>
     <div class="container">
-        <form action="/registrarProducto" method="post">
+        <form action="./registrarProducto" method="post">
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
               <input type="text" name="nombre" class="form-control" id="nombre" value="<% if(typeof valores != 'undefined') { %> <%= valores.nombre %><%}%>">
             </div>
             <div class="mb-3">
-              <label for="categoría" class="form-label">Categoría</label>
-              <input type="text" name="categoría" class="form-control" id="categoría" value="<% if(typeof valores != 'undefined') { %><%= valores.categoría %><%}%>">
-              <div id="emailHelp" class="form-text">Solo puede ser 3 estados [Camiseta, calcetines, sudadera y taza]</div>
+              <label for="categoria" class="form-label">Categoría</label>
+              <input type="text" name="categoria" class="form-control" id="categoria" value="<% if(typeof valores != 'undefined') { %><%= valores.categoria %><%}%>">
+              <div id="emailHelp" class="form-text">Solo puede ser 4 categorías [Camiseta, calcetines, sudadera y taza]</div>
             </div>
             <div class="mb-3">
               <label for="precio" class="form-label">Precio</label>

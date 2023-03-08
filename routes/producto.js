@@ -106,17 +106,15 @@ router.post('/registrarProducto', [
   body('nombre', 'Introduzca su Nombre')
     .exists() // Que no esté vacio
     .isLength({ min: 3 }), // Longitud caracteres
-  body('categoria', 'Introduzca su categoria')
+    body('precio', 'Introduzca su precio')
     .exists()
-    .matches({
-      options: ["Camiseta","Sudadera","Calcetines","Taza"],
-      errorMessage: "Categoria invalida"
-    }),
-  body('precio', 'Introduzca su precio')
-    .exists(),
-  body('imagen', 'Introduzca su imagen')
+    .isNumeric(),
+    body('imagen', 'Introduzca su imagen')
     .exists()
-    .isLength({ min : 10})
+    .isLength({ min : 10}),
+    body('categoria', 'Introduzca su categoria')
+    .exists()
+    .isIn(["Camiseta","Sudadera","Calcetines","Taza"])
 ],
 
 
@@ -129,7 +127,7 @@ router.post('/registrarProducto', [
       //console.log(validaciones);
       res.render('crearProducto', {validaciones:validaciones, valores:valores});
     } else {
-      usuario.create(req.body, function (error, productoInfo) {
+      Producto.create(req.body, function (error, productoInfo) {
         if (error) res.status(500).send(error);
         else res.sendStatus(200);
       });
