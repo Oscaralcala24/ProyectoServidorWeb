@@ -19,6 +19,7 @@ router.post('/', function(req, res, next) {
     else res.sendStatus(200);
   });
 });
+
 /* Mostrar todos los productos o todos los productos de una categoria*/
 router.get('/', function (req, res, next) {
   let queryCategoria = req.query.categoria;
