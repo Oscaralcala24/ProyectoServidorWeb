@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 const Pedido = require('../models/Pedido');
 const Usuario = require('../models/Usuario');
 var db = mongoose.connection;
+const { body, validationResult } = require('express-validator');
+
 
 
 /*GET - Muestra todos los pedidos de un usuario*/
@@ -13,6 +15,35 @@ router.get('/usuario/:id', function(req, res, next) {
       else res.status(200).json(posts);
   });
 });
+
+// POST - Crear un nuevo pedido y validación lado servidor
+router.post('/registrarPedido', [
+  body('Estado', 'Ingrese un estado Correcto')
+    .isEmpty()
+    .isIn(["En camino","En preparacion,","Preparado","Entregado"])
+    .exists(),
+  body('Fecha', 'Ingrese una fecha Correcta')
+    .isDate(),
+  body('Cantidad Producto', 'Ingresa una cantidad por favor')
+    .exists()
+    .isNumeric(),
+  body('Producto [id]', 'Ingresa el id de un producto por favor')
+    .exists(),
+  body('Usuario [id]', 'Ingresa el id de un usuario por favor')
+    .exists()
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(req.body)
+    const valores = req.body;
+    const validaciones = errors.array()
+    res.render('crearPedido', { validaciones: validaciones, valores: valores })
+  } else {
+    Pedido.create(req.body, function (error, productoInfo) {
+      if (error) res.status(500).send(error);
+      else res.sendStatus(200);
+    });  }
+})
 
 /*POST - Crear nuevo pedido*/
 router.post('/', function (req, res, next) {
